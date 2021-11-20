@@ -17,3 +17,6 @@ To create this app we coded in Python used 3 external libraries. These include:
 - CSV module to create a database
 - Kivy graphics library to create easy to use user-interfaces
 - Datetime module to keep track of past data, and archive entries
+
+Notes when using app:
+- After creating account close app and reopen, then login to the same account created.
