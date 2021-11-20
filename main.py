@@ -23,6 +23,8 @@ kv = Builder.load_file("my.kv")
 users = read_fileCSV("users.csv")
 users_dict = users.open_fileCSV()
 
+user = ""
+
 
 def invalidLogin():
     pop = Popup(
@@ -95,7 +97,8 @@ class SignUpWin(Screen):
                 "users.csv",
                 users_dict,
                 self.username_input.text,
-                self.password_input.text
+                self.password_input.text,
+                "",
             )
             if su.signup_validation():
                 pass
@@ -143,33 +146,38 @@ class JournalWin(Screen):
         ju = journalENTRY(
             "users.csv", users_dict, user, self.journal_input.text, self.rating
         )
+
         ju.journal_save()
 
 
 class DataWin(Screen):
     date_input = ObjectProperty(None)
 
+    rating = ""
+    entry = ""
+
     def get_entry(self):
-        global date 
-        date = self.date_input.text
         user = LoginWin.return_user()
         js = journalSEARCH(users_dict, user, self.date_input.text)
-        rating, entry = js.journal_search()
+        self.entry, self.rating = js.journal_search()
 
-    def return_date():
-        return date
-				
-           
-class Archives(Screen):
-    rating = ''
+        print(self.entry)
 
-    def return_ratingpt2(self):
-        self.rating += DataWin.return_rating()
-        return self.rating
+    def popup(self):
 
-  
+        pop = Popup(
+            title=self.date_input.text,
+            content=Label(text=f"Entry: {self.entry}     Rating: {self.rating}"),
+            size_hint=(1, 1),
+            size=(400, 400),
+        )
+
+        pop.open()
+
+
 class WindowManager(ScreenManager):
     pass
+
 
 sm = WindowManager()
 
@@ -185,9 +193,11 @@ screens = [
 for screen in screens:
     sm.add_widget(screen)
 
+
 class MyApp(App):
     def build(self):
         return WindowManager()
+
 
 if __name__ == "__main__":
     MyApp().run()
