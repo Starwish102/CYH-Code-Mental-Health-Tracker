@@ -98,7 +98,6 @@ class SignUpWin(Screen):
                 users_dict,
                 self.username_input.text,
                 self.password_input.text,
-                "",
             )
             if su.signup_validation():
                 pass
